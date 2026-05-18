@@ -12,149 +12,165 @@
     <style>
         body { 
             font-family: 'Plus Jakarta Sans', sans-serif; 
-            background: #020617;
-            color: #f8fafc;
-            background-image: radial-gradient(at 0% 0%, hsla(142,100%,10%,1) 0, transparent 50%), 
-                              radial-gradient(at 100% 100%, hsla(160,100%,8%,1) 0, transparent 50%);
+            background: #f8fafc; /* Light Theme Background */
+            color: #1e293b;
+            background-image: radial-gradient(at 0% 0%, hsla(160,100%,90%,1) 0, transparent 50%), 
+                              radial-gradient(at 100% 100%, hsla(142,100%,92%,1) 0, transparent 50%);
             background-attachment: fixed;
         }
-        .glass { background: rgba(15, 23, 42, 0.7); backdrop-filter: blur(12px); border: 1px solid rgba(16, 185, 129, 0.2); }
+        /* Light Glassmorphism Effect */
+        .glass { 
+            background: rgba(255, 255, 255, 0.7); 
+            backdrop-filter: blur(16px); 
+            border: 1px solid rgba(255, 255, 255, 0.9);
+            box-shadow: 0 10px 40px -10px rgba(0,0,0,0.05);
+        }
         
         input[type="text"], input[type="number"], input[type="tel"], select, textarea { 
-            background: rgba(2, 6, 23, 0.8) !important; color: white !important; border: 1px solid #334155 !important; 
+            background: rgba(255, 255, 255, 0.9) !important; 
+            color: #0f172a !important; 
+            border: 1px solid #cbd5e1 !important; 
+            transition: all 0.3s;
         }
-        input:focus, select:focus, textarea:focus { border-color: #10b981 !important; outline: none; box-shadow: 0 0 0 2px rgba(16, 185, 129, 0.3); }
+        input:focus, select:focus, textarea:focus { 
+            border-color: #10b981 !important; 
+            outline: none; 
+            box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.2); 
+        }
+        .swal2-popup { border-radius: 1.5rem !important; }
     </style>
 </head>
 <body class="min-h-screen py-10 px-4">
 
     <div class="max-w-4xl mx-auto text-center mb-10">
-        <img src="https://raw.githubusercontent.com/kamarul95-cloud/hostqamarul/refs/heads/main/logo%20logo%20pemuda%20pas.png" class="h-24 mx-auto mb-6 drop-shadow-[0_0_15px_rgba(16,185,129,0.5)]">
-        <h1 class="text-3xl md:text-5xl font-black uppercase tracking-tighter text-emerald-400">MAT DPPKKN</h1>
-        <p class="text-white font-bold tracking-[0.2em] text-sm mt-2 uppercase">Borang Perwakilan & Usul Cawangan</p>
+        <img src="https://raw.githubusercontent.com/kamarul95-cloud/hostqamarul/refs/heads/main/logo%20logo%20pemuda%20pas.png" class="h-24 mx-auto mb-6 drop-shadow-xl">
+        <h1 class="text-3xl md:text-5xl font-black uppercase tracking-tighter text-emerald-600">MAT DPPKKN</h1>
+        <p class="text-slate-600 font-bold tracking-[0.2em] text-sm mt-2 uppercase">Borang Perwakilan & Usul Cawangan</p>
         
-        <div class="mt-6 inline-block bg-emerald-900/40 border border-emerald-500/30 rounded-xl p-4 text-xs font-bold text-emerald-100 max-w-xl">
-            <i class="fa-solid fa-circle-exclamation text-emerald-400 text-lg mb-2 block"></i>
-            Setiap cawangan hendaklah menghantar 7 orang perwakilan ke MAT kali ini. Sila tanda " - " jika maklumat usul tidak berkenaan.
+        <div class="mt-6 inline-block bg-white/60 border border-emerald-500/20 rounded-xl p-4 text-xs font-bold text-slate-600 max-w-xl shadow-sm">
+            <i class="fa-solid fa-circle-exclamation text-emerald-500 text-lg mb-2 block"></i>
+            Setiap cawangan hendaklah menghantar <span class="text-emerald-600">7 orang perwakilan</span> ke MAT kali ini. Sila tanda " - " jika maklumat usul tidak berkenaan.
         </div>
     </div>
 
     <div class="max-w-4xl mx-auto">
         <form id="matForm" class="space-y-6">
             
-            <div class="glass p-8 rounded-2xl space-y-6 shadow-xl">
-                <h2 class="text-emerald-400 font-bold uppercase text-xs tracking-widest border-b border-emerald-500/30 pb-3 flex items-center gap-2">
+            <div class="glass p-8 rounded-2xl space-y-6">
+                <h2 class="text-emerald-600 font-extrabold uppercase text-xs tracking-widest border-b border-slate-200 pb-3 flex items-center gap-2">
                     <i class="fa-solid fa-sitemap"></i> Maklumat Kawasan
                 </h2>
                 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
                     <div>
-                        <label class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-2 block">DUN *</label>
-                        <select name="dun" required class="w-full p-3.5 rounded-xl text-sm font-semibold cursor-pointer">
-                            <option value="">-- Pilih DUN --</option>
-                            <option value="Bukit Tunggal">Bukit Tunggal</option>
-                            <option value="Buluh Gading">Buluh Gading</option>
-                            <option value="Seberang Takir">Seberang Takir</option>
-                            <option value="Tepoh">Tepoh</option>
+                        <label class="text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-2 block">DUN *</label>
+                        <select name="dun" required class="w-full p-3.5 rounded-xl text-sm font-bold cursor-pointer bg-slate-100">
+                            <option value="Bukit Tunggal" selected>Bukit Tunggal</option>
                         </select>
                     </div>
                     <div>
-                        <label class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-2 block">Cawangan *</label>
+                        <label class="text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-2 block">Cawangan *</label>
                         <select name="cawangan" id="cawanganDropdown" required class="w-full p-3.5 rounded-xl text-sm font-semibold cursor-pointer"></select>
                     </div>
                 </div>
 
                 <div>
-                    <label class="text-[10px] font-bold text-emerald-400 uppercase tracking-widest mb-2 block">
-                        <i class="fa-solid fa-phone mr-1"></i> No Telefon (Untuk Terima Borang Siap) *
+                    <label class="text-[10px] font-bold text-emerald-600 uppercase tracking-widest mb-2 block">
+                        <i class="fa-solid fa-phone mr-1"></i> No Telefon PIC (Untuk Terima Borang Siap) *
                     </label>
-                    <input type="tel" name="no_tel_pic" required placeholder="CONTOH: 01XXXXXXXX" class="w-full p-3.5 rounded-xl text-sm font-bold border-emerald-500/50 bg-emerald-900/10">
+                    <input type="tel" name="no_tel_pic" required placeholder="CONTOH: 01XXXXXXXX" class="w-full p-3.5 rounded-xl text-sm font-bold">
                 </div>
             </div>
 
             <div id="perwakilanContainer" class="space-y-6"></div>
 
-            <div class="glass p-8 rounded-2xl space-y-6 shadow-xl">
-                <h2 class="text-emerald-400 font-bold uppercase text-xs tracking-widest border-b border-emerald-500/30 pb-3 flex items-center gap-2">
+            <div class="glass p-8 rounded-2xl space-y-6">
+                <h2 class="text-emerald-600 font-extrabold uppercase text-xs tracking-widest border-b border-slate-200 pb-3 flex items-center gap-2">
                     <i class="fa-solid fa-bullhorn"></i> Usul Cawangan (Jika Ada)
                 </h2>
-                <p class="text-[11px] text-slate-400 italic -mt-2">Sila letak tanda " - " jika tiada usul dibawa.</p>
 
                 <div class="space-y-4">
                     <div>
-                        <label class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-2 block">Usul 1 *</label>
-                        <textarea name="usul_1" required rows="2" class="w-full p-3.5 rounded-xl text-sm placeholder-slate-600">-</textarea>
+                        <label class="text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-2 block">Usul 1 *</label>
+                        <textarea name="usul_1" required rows="2" class="w-full p-3.5 rounded-xl text-sm">-</textarea>
                     </div>
                     <div>
-                        <label class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-2 block">Usul 2 *</label>
-                        <textarea name="usul_2" required rows="2" class="w-full p-3.5 rounded-xl text-sm placeholder-slate-600">-</textarea>
+                        <label class="text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-2 block">Usul 2 *</label>
+                        <textarea name="usul_2" required rows="2" class="w-full p-3.5 rounded-xl text-sm">-</textarea>
                     </div>
                     <div>
-                        <label class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-2 block">Usul 3 *</label>
-                        <textarea name="usul_3" required rows="2" class="w-full p-3.5 rounded-xl text-sm placeholder-slate-600">-</textarea>
+                        <label class="text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-2 block">Usul 3 *</label>
+                        <textarea name="usul_3" required rows="2" class="w-full p-3.5 rounded-xl text-sm">-</textarea>
                     </div>
                 </div>
             </div>
 
-            <button type="submit" id="btnSubmit" class="w-full bg-emerald-500 hover:bg-emerald-400 text-slate-900 font-black py-4 rounded-2xl shadow-[0_0_20px_rgba(16,185,129,0.3)] transition transform active:scale-95 uppercase tracking-widest text-sm">
+            <button type="submit" id="btnSubmit" class="w-full bg-emerald-500 hover:bg-emerald-400 text-white font-black py-4 rounded-2xl shadow-[0_10px_20px_rgba(16,185,129,0.3)] transition transform active:scale-95 uppercase tracking-widest text-sm mt-8">
                 Hantar Pendaftaran Perwakilan
             </button>
         </form>
 
-        <div class="text-center text-slate-500 text-xs mt-12 pb-8">
+        <div class="text-center text-slate-400 text-xs mt-12 pb-8">
             Sistem Pendaftaran Digital Pemuda Kuala Nerus<br>
-            <span class="opacity-50">Developed by Qamar</span>
+            <span class="opacity-70 font-semibold">Developed by Qamar</span>
         </div>
     </div>
 
     <script>
         // ==========================================
-        // ⚠️ MASUKKAN URL GOOGLE APPS SCRIPT BOS DI SINI
-        const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwYKgJQlP2AIoadYHNcTV6zEKR-J6xc1J34yP5yvzMD3XKUwoA169Hfw1oQIke_yZe_tw/exec";
+        // ⚠️ MASUKKAN URL GOOGLE APPS SCRIPT BOS DI SINI (Pastikan diakhiri dengan /exec)
+        const SCRIPT_URL = "MASUKKAN_URL_WEB_APP_GOOGLE_SCRIPT_DI_SINI";
         // ==========================================
 
-        document.addEventListener("DOMContentLoaded", function() {
-            // Generate 27 Pilihan Cawangan
-            const cawNasi = document.getElementById('cawanganDropdown');
-            let htmlCaw = '<option value="">-- Pilih Cawangan --</option>';
-            for(let c=1; c<=27; c++) {
-                htmlCaw += `<option value="${c}">${c}</option>`;
-            }
-            cawNasi.innerHTML = htmlCaw;
+        const cawanganList = [
+            "BATU ENAM", "PAYA LIMA AMAS", "TUAN MANDAK", "PENGKALAN ARANG", "TEBAUK", "PAK KATAK", 
+            "TAMAN DESA JAYA", "BANGGOL AIR LILIH", "BUKIT TUNGGAL", "TAMAN BUKIT DATU", "BUKIT KANDIS", 
+            "BUKIT DATU", "SEB TUAN CHIK", "BUKIT TOK RIS", "SERDANG BARU", "PAKR BUKIT TUNGGAL", 
+            "GONG KIJANG", "GONG SENTUL", "PULAU KETAM", "PULAU SEKATI", "DUYUNG BESAR", "DUYUNG KECIL", 
+            "DUYUNG WAN SU", "KELAB AYA", "BUKIT TUMBUH", "BANGGOL PAUH", "SEBERANG BUKIT TUMBUH"
+        ];
 
-            // Generate 7 Form Perwakilan secara Pintar
+        const jawatanList = [
+            "Ketua Pemuda", "Timbalan Ketua", "Setiausaha", "Penolong Setiausaha", "Bendahari", "AJK", "Tiada"
+        ];
+
+        document.addEventListener("DOMContentLoaded", function() {
+            // Setup Dropdown Cawangan
+            const cawDropdown = document.getElementById('cawanganDropdown');
+            let htmlCaw = '<option value="">-- Pilih Cawangan --</option>';
+            cawanganList.forEach(c => htmlCaw += `<option value="${c}">${c}</option>`);
+            cawDropdown.innerHTML = htmlCaw;
+
+            // Generate 7 Form Perwakilan (Susunan: IC -> Nama -> Jawatan)
             const container = document.getElementById('perwakilanContainer');
             let htmlPerwakilan = '';
             
-            const listJawatan = ["1", "2", "3", "4", "5", "6", "7"];
-
             for (let i = 1; i <= 7; i++) {
                 let jwOptions = '<option value="">-- Pilih Jawatan --</option>';
-                listJawatan.forEach(j => {
-                    jwOptions += `<option value="${j}">${j}</option>`;
-                });
+                jawatanList.forEach(j => jwOptions += `<option value="${j}">${j}</option>`);
 
                 htmlPerwakilan += `
-                <div class="glass p-6 rounded-2xl relative overflow-hidden border-t-4 border-emerald-500">
-                    <div class="absolute -right-6 top-4 bg-slate-800 text-emerald-400 text-[9px] font-black px-10 py-1.5 rotate-45 border border-emerald-500/20">WAKIL ${i}</div>
-                    <h3 class="text-emerald-400 font-bold mb-4 uppercase text-xs tracking-widest"><i class="fa-solid fa-user-check mr-1"></i> Perwakilan ${i}</h3>
+                <div class="glass p-6 rounded-2xl relative overflow-hidden border-t-4 border-emerald-400">
+                    <div class="absolute -right-6 top-4 bg-emerald-100 text-emerald-700 text-[9px] font-black px-10 py-1.5 rotate-45 border border-emerald-200">WAKIL ${i}</div>
+                    <h3 class="text-emerald-600 font-extrabold mb-4 uppercase text-xs tracking-widest"><i class="fa-solid fa-user-check mr-1"></i> Perwakilan ${i}</h3>
                     
                     <div class="space-y-4">
-                        <div>
-                            <label class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1 block">Nama Penuh (HURUF BESAR) *</label>
-                            <input type="text" name="nama_${i}" required class="w-full p-3 rounded-xl uppercase text-sm font-semibold" placeholder="NAMA PERWAKILAN ${i}">
-                        </div>
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                            <div>
-                                <label class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1 block">No Kad Pengenalan *</label>
-                                <input type="number" name="ic_${i}" required class="w-full p-3 rounded-xl text-sm font-semibold" placeholder="TANPA SENGKANG">
+                            <div class="relative">
+                                <label class="text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-1 block">No Kad Pengenalan *</label>
+                                <input type="number" name="ic_${i}" required class="w-full p-3 rounded-xl text-sm font-bold" placeholder="TANPA SENGKANG" onkeyup="semakIC(this, ${i})">
+                                <i id="icon-ic-${i}" class="fa-solid fa-id-card absolute right-4 top-9 text-slate-300 transition-all"></i>
                             </div>
                             <div>
-                                <label class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1 block">Jawatan *</label>
-                                <select name="jawatan_${i}" required class="w-full p-3 rounded-xl text-sm font-semibold cursor-pointer">
-                                    ${jwOptions}
-                                </select>
+                                <label class="text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-1 block">Nama Penuh (HURUF BESAR) *</label>
+                                <input type="text" name="nama_${i}" id="nama_${i}" required class="w-full p-3 rounded-xl uppercase text-sm font-bold" placeholder="NAMA PERWAKILAN">
                             </div>
+                        </div>
+                        <div>
+                            <label class="text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-1 block">Jawatan *</label>
+                            <select name="jawatan_${i}" required class="w-full p-3 rounded-xl text-sm font-semibold cursor-pointer">
+                                ${jwOptions}
+                            </select>
                         </div>
                     </div>
                 </div>`;
@@ -162,7 +178,44 @@
             container.innerHTML = htmlPerwakilan;
         });
 
-        // Hantar Data terus ke Google Script Hub (Yang akan rekod & pass ke Boostspace)
+        // --- FUNGSI AUTO-FILL IC ---
+        let typingTimer;
+        function semakIC(inputEl, index) {
+            clearTimeout(typingTimer);
+            const icValue = inputEl.value.trim();
+            const iconEl = document.getElementById(`icon-ic-${index}`);
+            const namaEl = document.getElementById(`nama_${index}`);
+
+            if(icValue.length >= 10) {
+                // Tunjuk loading spinner
+                iconEl.className = "fa-solid fa-spinner fa-spin absolute right-4 top-9 text-emerald-500 transition-all";
+                
+                typingTimer = setTimeout(async () => {
+                    try {
+                        const res = await fetch(SCRIPT_URL, {
+                            method: 'POST',
+                            body: JSON.stringify({ action: "checkIC", ic: icValue })
+                        });
+                        const data = await res.json();
+                        
+                        if(data.found) {
+                            namaEl.value = data.nama;
+                            iconEl.className = "fa-solid fa-check-circle absolute right-4 top-9 text-emerald-500 transition-all";
+                            namaEl.classList.add("bg-emerald-50", "border-emerald-300"); // Highlight hijau sikit
+                            setTimeout(() => namaEl.classList.remove("bg-emerald-50", "border-emerald-300"), 1500);
+                        } else {
+                            iconEl.className = "fa-solid fa-id-card absolute right-4 top-9 text-slate-300 transition-all";
+                        }
+                    } catch(err) {
+                        iconEl.className = "fa-solid fa-id-card absolute right-4 top-9 text-slate-300 transition-all";
+                    }
+                }, 800); // Tunggu 0.8 saat lepas user berhenti menaip baru semak database
+            } else {
+                iconEl.className = "fa-solid fa-id-card absolute right-4 top-9 text-slate-300 transition-all";
+            }
+        }
+
+        // --- SUBMIT BORANG ---
         document.getElementById('matForm').addEventListener('submit', function(e) {
             e.preventDefault();
             const btn = document.getElementById('btnSubmit');
@@ -179,11 +232,23 @@
             .then(res => res.json())
             .then(response => {
                 if(response.status === 'success') {
+                    // SWEETALERT DENGAN TRADEMARK QAMAR
                     Swal.fire({
                         icon: 'success',
                         title: 'BERJAYA DIHANTAR!',
-                        text: 'Maklumat perwakilan & usul cawangan anda telah selamat direkodkan.',
-                        confirmButtonColor: '#10b981', background: '#0f172a', color: '#fff'
+                        html: `
+                            <div class="space-y-3 mt-2 text-sm text-slate-600">
+                                <p>Maklumat perwakilan dan usul cawangan anda telah direkodkan.</p>
+                                <div class="mt-6 pt-4 border-t border-slate-200">
+                                    <p class="text-[10px] text-slate-400 uppercase tracking-widest">
+                                        Sistem dibangunkan oleh <span class="text-emerald-600 font-bold">Qamar</span> 🚀
+                                    </p>
+                                </div>
+                            </div>
+                        `,
+                        confirmButtonColor: '#10b981',
+                        background: '#ffffff',
+                        color: '#1e293b'
                     }).then(() => location.reload());
                 } else {
                     throw new Error(response.message);
@@ -193,8 +258,8 @@
                 Swal.fire({
                     icon: 'error',
                     title: 'RALAT SISTEM',
-                    text: 'Gagal memproses pendaftaran. Sila hubungi admin. (' + err.message + ')',
-                    background: '#0f172a', color: '#fff'
+                    text: 'Gagal memproses pendaftaran. (' + err.message + ')',
+                    confirmButtonColor: '#10b981', background: '#ffffff', color: '#1e293b'
                 });
                 btn.disabled = false;
                 btn.innerHTML = 'Hantar Pendaftaran Perwakilan';
