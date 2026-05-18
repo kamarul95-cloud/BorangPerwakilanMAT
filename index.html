@@ -48,7 +48,7 @@
         
         <div class="mt-6 inline-block bg-white/60 border border-emerald-500/20 rounded-xl p-4 text-xs font-bold text-slate-600 max-w-xl shadow-sm">
             <i class="fa-solid fa-circle-exclamation text-emerald-500 text-lg mb-2 block"></i>
-            Setiap cawangan hendaklah menghantar <span class="text-emerald-600">7 orang perwakilan</span> ke MAT kali ini. Sila tanda " - " jika maklumat usul tidak berkenaan.
+            Setiap cawangan boleh menghantar <span class="text-emerald-600">maksima 7 orang perwakilan</span> ke MAT kali ini. Biarkan kosong pada ruangan perwakilan jika tidak cukup kuota 7 orang. Sila tanda " - " jika maklumat usul tidak berkenaan.
         </div>
     </div>
 
@@ -140,7 +140,7 @@
             cawanganList.forEach(c => htmlCaw += `<option value="${c}">${c}</option>`);
             cawDropdown.innerHTML = htmlCaw;
 
-            // Generate 7 Form Perwakilan
+            // Generate 7 Form Perwakilan (TIDAK MANDATORI / TIADA 'REQUIRED')
             const container = document.getElementById('perwakilanContainer');
             let htmlPerwakilan = '';
             
@@ -156,18 +156,18 @@
                     <div class="space-y-4">
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                             <div class="relative">
-                                <label class="text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-1 block">No Kad Pengenalan *</label>
-                                <input type="number" name="ic_${i}" required class="w-full p-3 rounded-xl text-sm font-bold" placeholder="TANPA SENGKANG" oninput="semakIC(this, ${i})">
+                                <label class="text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-1 block">No Kad Pengenalan</label>
+                                <input type="number" name="ic_${i}" class="w-full p-3 rounded-xl text-sm font-bold" placeholder="TANPA SENGKANG" oninput="semakIC(this, ${i})">
                                 <i id="icon-ic-${i}" class="fa-solid fa-id-card absolute right-4 top-9 text-slate-300 transition-all"></i>
                             </div>
                             <div>
-                                <label class="text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-1 block">Nama Penuh (HURUF BESAR) *</label>
-                                <input type="text" name="nama_${i}" id="nama_${i}" required class="w-full p-3 rounded-xl uppercase text-sm font-bold" placeholder="NAMA PERWAKILAN">
+                                <label class="text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-1 block">Nama Penuh (HURUF BESAR)</label>
+                                <input type="text" name="nama_${i}" id="nama_${i}" class="w-full p-3 rounded-xl uppercase text-sm font-bold" placeholder="NAMA PERWAKILAN">
                             </div>
                         </div>
                         <div>
-                            <label class="text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-1 block">Jawatan *</label>
-                            <select name="jawatan_${i}" required class="w-full p-3 rounded-xl text-sm font-semibold cursor-pointer transition-all">
+                            <label class="text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-1 block">Jawatan</label>
+                            <select name="jawatan_${i}" class="w-full p-3 rounded-xl text-sm font-semibold cursor-pointer transition-all">
                                 ${jwOptions}
                             </select>
                             <p id="nota_jawatan_${i}" class="text-[9.5px] text-amber-600 font-bold mt-1.5 hidden animate-pulse">
