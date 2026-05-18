@@ -12,13 +12,12 @@
     <style>
         body { 
             font-family: 'Plus Jakarta Sans', sans-serif; 
-            background: #f8fafc; /* Light Theme Background */
+            background: #f8fafc; 
             color: #1e293b;
             background-image: radial-gradient(at 0% 0%, hsla(160,100%,90%,1) 0, transparent 50%), 
                               radial-gradient(at 100% 100%, hsla(142,100%,92%,1) 0, transparent 50%);
             background-attachment: fixed;
         }
-        /* Light Glassmorphism Effect */
         .glass { 
             background: rgba(255, 255, 255, 0.7); 
             backdrop-filter: blur(16px); 
@@ -141,7 +140,7 @@
             cawanganList.forEach(c => htmlCaw += `<option value="${c}">${c}</option>`);
             cawDropdown.innerHTML = htmlCaw;
 
-            // Generate 7 Form Perwakilan (Susunan: IC -> Nama -> Jawatan)
+            // Generate 7 Form Perwakilan
             const container = document.getElementById('perwakilanContainer');
             let htmlPerwakilan = '';
             
@@ -158,7 +157,7 @@
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                             <div class="relative">
                                 <label class="text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-1 block">No Kad Pengenalan *</label>
-                                <input type="number" name="ic_${i}" required class="w-full p-3 rounded-xl text-sm font-bold" placeholder="TANPA SENGKANG" onkeyup="semakIC(this, ${i})">
+                                <input type="number" name="ic_${i}" required class="w-full p-3 rounded-xl text-sm font-bold" placeholder="TANPA SENGKANG" oninput="semakIC(this, ${i})">
                                 <i id="icon-ic-${i}" class="fa-solid fa-id-card absolute right-4 top-9 text-slate-300 transition-all"></i>
                             </div>
                             <div>
@@ -168,9 +167,12 @@
                         </div>
                         <div>
                             <label class="text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-1 block">Jawatan *</label>
-                            <select name="jawatan_${i}" required class="w-full p-3 rounded-xl text-sm font-semibold cursor-pointer">
+                            <select name="jawatan_${i}" required class="w-full p-3 rounded-xl text-sm font-semibold cursor-pointer transition-all">
                                 ${jwOptions}
                             </select>
+                            <p id="nota_jawatan_${i}" class="text-[9.5px] text-amber-600 font-bold mt-1.5 hidden animate-pulse">
+                                <i class="fa-solid fa-circle-exclamation"></i> Sila tukar jika jawatan berubah tahun ini.
+                            </p>
                         </div>
                     </div>
                 </div>`;
@@ -178,7 +180,7 @@
             container.innerHTML = htmlPerwakilan;
         });
 
-// --- FUNGSI AUTO-FILL IC (NAMA + JAWATAN) ---
+        // --- FUNGSI AUTO-FILL IC (NAMA + JAWATAN + AMARAN) ---
         let typingTimer;
         function semakIC(inputEl, index) {
             clearTimeout(typingTimer);
@@ -186,9 +188,12 @@
             const iconEl = document.getElementById(`icon-ic-${index}`);
             const namaEl = document.getElementById(`nama_${index}`);
             const jawatanEl = document.querySelector(`select[name="jawatan_${index}"]`);
+            const notaEl = document.getElementById(`nota_jawatan_${index}`);
+
+            // Padam amaran jika user padam balik IC
+            if(notaEl) notaEl.classList.add("hidden");
 
             if(icValue.length >= 10) {
-                // Tunjuk loading spinner
                 iconEl.className = "fa-solid fa-spinner fa-spin absolute right-4 top-9 text-emerald-500 transition-all";
                 
                 typingTimer = setTimeout(async () => {
@@ -202,25 +207,25 @@
                         const data = await res.json();
                         
                         if(data.found) {
-                            // Masukkan Nama Auto
                             namaEl.value = data.nama;
                             
-                            // Masukkan Jawatan Auto (Kalau Wujud & Padan dalam senarai)
                             if (data.jawatan) {
-                                // Loop semua option dalam dropdown tu cari jawatan yang sama
                                 for (let option of jawatanEl.options) {
                                     if (option.value.toLowerCase() === data.jawatan.toLowerCase()) {
                                         option.selected = true;
                                         jawatanEl.classList.add("bg-emerald-50", "border-emerald-300");
+                                        
+                                        // MUNCULKAN NOTA AMARAN JAWATAN
+                                        if(notaEl) notaEl.classList.remove("hidden");
+                                        
                                         break;
                                     }
                                 }
                             }
 
                             iconEl.className = "fa-solid fa-check-circle absolute right-4 top-9 text-emerald-500 transition-all";
-                            namaEl.classList.add("bg-emerald-50", "border-emerald-300"); // Highlight hijau
+                            namaEl.classList.add("bg-emerald-50", "border-emerald-300"); 
                             
-                            // Buang highlight selepas 1.5 saat
                             setTimeout(() => {
                                 namaEl.classList.remove("bg-emerald-50", "border-emerald-300");
                                 jawatanEl.classList.remove("bg-emerald-50", "border-emerald-300");
@@ -229,7 +234,6 @@
                             iconEl.className = "fa-solid fa-id-card absolute right-4 top-9 text-slate-300 transition-all";
                         }
                     } catch(err) {
-                        console.error("Ralat Auto-Fill: ", err);
                         iconEl.className = "fa-solid fa-id-card absolute right-4 top-9 text-slate-300 transition-all";
                     }
                 }, 800);
@@ -255,7 +259,6 @@
             .then(res => res.json())
             .then(response => {
                 if(response.status === 'success') {
-                    // SWEETALERT DENGAN TRADEMARK QAMAR
                     Swal.fire({
                         icon: 'success',
                         title: 'BERJAYA DIHANTAR!',
@@ -269,9 +272,7 @@
                                 </div>
                             </div>
                         `,
-                        confirmButtonColor: '#10b981',
-                        background: '#ffffff',
-                        color: '#1e293b'
+                        confirmButtonColor: '#10b981', background: '#ffffff', color: '#1e293b'
                     }).then(() => location.reload());
                 } else {
                     throw new Error(response.message);
