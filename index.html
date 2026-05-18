@@ -178,13 +178,14 @@
             container.innerHTML = htmlPerwakilan;
         });
 
-        // --- FUNGSI AUTO-FILL IC ---
+// --- FUNGSI AUTO-FILL IC (NAMA + JAWATAN) ---
         let typingTimer;
         function semakIC(inputEl, index) {
             clearTimeout(typingTimer);
             const icValue = inputEl.value.trim();
             const iconEl = document.getElementById(`icon-ic-${index}`);
             const namaEl = document.getElementById(`nama_${index}`);
+            const jawatanEl = document.querySelector(`select[name="jawatan_${index}"]`);
 
             if(icValue.length >= 10) {
                 // Tunjuk loading spinner
@@ -194,22 +195,44 @@
                     try {
                         const res = await fetch(SCRIPT_URL, {
                             method: 'POST',
+                            headers: { 'Content-Type': 'text/plain;charset=utf-8' },
                             body: JSON.stringify({ action: "checkIC", ic: icValue })
                         });
+                        
                         const data = await res.json();
                         
                         if(data.found) {
+                            // Masukkan Nama Auto
                             namaEl.value = data.nama;
+                            
+                            // Masukkan Jawatan Auto (Kalau Wujud & Padan dalam senarai)
+                            if (data.jawatan) {
+                                // Loop semua option dalam dropdown tu cari jawatan yang sama
+                                for (let option of jawatanEl.options) {
+                                    if (option.value.toLowerCase() === data.jawatan.toLowerCase()) {
+                                        option.selected = true;
+                                        jawatanEl.classList.add("bg-emerald-50", "border-emerald-300");
+                                        break;
+                                    }
+                                }
+                            }
+
                             iconEl.className = "fa-solid fa-check-circle absolute right-4 top-9 text-emerald-500 transition-all";
-                            namaEl.classList.add("bg-emerald-50", "border-emerald-300"); // Highlight hijau sikit
-                            setTimeout(() => namaEl.classList.remove("bg-emerald-50", "border-emerald-300"), 1500);
+                            namaEl.classList.add("bg-emerald-50", "border-emerald-300"); // Highlight hijau
+                            
+                            // Buang highlight selepas 1.5 saat
+                            setTimeout(() => {
+                                namaEl.classList.remove("bg-emerald-50", "border-emerald-300");
+                                jawatanEl.classList.remove("bg-emerald-50", "border-emerald-300");
+                            }, 1500);
                         } else {
                             iconEl.className = "fa-solid fa-id-card absolute right-4 top-9 text-slate-300 transition-all";
                         }
                     } catch(err) {
+                        console.error("Ralat Auto-Fill: ", err);
                         iconEl.className = "fa-solid fa-id-card absolute right-4 top-9 text-slate-300 transition-all";
                     }
-                }, 800); // Tunggu 0.8 saat lepas user berhenti menaip baru semak database
+                }, 800);
             } else {
                 iconEl.className = "fa-solid fa-id-card absolute right-4 top-9 text-slate-300 transition-all";
             }
